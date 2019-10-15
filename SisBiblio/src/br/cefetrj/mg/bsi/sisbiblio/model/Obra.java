@@ -9,10 +9,10 @@ package br.cefetrj.mg.bsi.sisbiblio.model;
  *
  * @author Maurício
  */
-public class Autor {
+public class Obra {
     private int id;
-    private String nome;
-    private String email;
+    private String isbn;
+    private String titulo;
 
     public int getId() {
         return id;
@@ -22,20 +22,19 @@ public class Autor {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
-    public String getEmail() {
-        return email;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
-    
 }
