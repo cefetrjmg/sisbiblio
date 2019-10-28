@@ -1,0 +1,1 @@
+[{"id":2,"isbn":"321","titulo":"Título atualizado.","autores":[]},{"id":3,"isbn":"3","titulo":"Titulo 3","autores":[]},{"id":4,"isbn":"444","titulo":"Titulo 4","autores":[{"id":1,"nome":"Nome do Autor","email":"autor@gmail.com","obras":[]}]}]

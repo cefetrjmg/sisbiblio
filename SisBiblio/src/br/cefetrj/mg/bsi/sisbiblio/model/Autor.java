@@ -5,6 +5,8 @@
  */
 package br.cefetrj.mg.bsi.sisbiblio.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Maurício
@@ -13,7 +15,8 @@ public class Autor {
     private int id;
     private String nome;
     private String email;
-
+    private  ArrayList<Obra> obras =new ArrayList<>();
+    
     public int getId() {
         return id;
     }
@@ -37,5 +40,19 @@ public class Autor {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public ArrayList<Obra> getObras() {
+        return obras;
+    }
+
+    public void setObras(ArrayList<Obra> obras) {
+        this.obras = obras;
+    }
+
+    @Override
+    public String toString() {
+        return "Autor{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", obras=" + obras + '}';
+    }
+    
     
 }
