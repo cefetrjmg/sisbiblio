@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,14 +47,8 @@ public class ObraDAO extends Settings implements DAO {
     private void init() {
 
         try {
-            if (!FILE.exists()) {
+            if (!FILE.exists()) 
                 FILE.createNewFile();
-                //BUFFERED_WRITER.write("[]");
-            } else {
-                //FILE.delete();
-                //FILE.createNewFile();
-            }
-
         } catch (IOException ex) {
             Logger.getLogger(ObraDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -193,6 +188,7 @@ public class ObraDAO extends Settings implements DAO {
             MSG = ObraDAO.obras.isEmpty() ? "Nenhuma obra cadastrada" : "";
             BUFFERED_READER.close();
             FILE_READER.close();
+            Collections.sort(ObraDAO.obras);
             return ObraDAO.obras;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ObraDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,5 +204,11 @@ public class ObraDAO extends Settings implements DAO {
     public int getPos(Object o) {
         return obras.indexOf(buscar(o));
     }
+
+    @Override
+    public int getLastId() {
+        return obras.get(obras.size()-1).getId();
+    }
+    
 
 }

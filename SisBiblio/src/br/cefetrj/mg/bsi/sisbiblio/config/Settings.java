@@ -17,6 +17,7 @@ import java.io.FileWriter;
  */
 public class Settings {
 
+    public static String TITLE="Sistema de Biblioteca 1.0";
     protected static String MSG = "";
     protected static String NOME_ARQUIVO = "";
     protected static String EXTENSAO_ARQUIVO = "", EXTENSAO_TMP = ".tmp";

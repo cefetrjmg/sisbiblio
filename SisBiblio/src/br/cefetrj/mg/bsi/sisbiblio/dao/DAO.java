@@ -19,6 +19,6 @@ public  interface  DAO {
     public ArrayList<?> listar();
     //public boolean criarOuAtualizarArquivo(Object o);
     public int getPos(Object o);
-    
+    public int getLastId();
     
 }

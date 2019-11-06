@@ -7,11 +7,12 @@ package br.cefetrj.mg.bsi.sisbiblio.model;
 
 import java.util.ArrayList;
 
+
 /**
  *
  * @author Maurício
  */
-public class Obra {
+public class Obra implements Comparable<Obra>{
     private int id;
     private String isbn;
     private String titulo;
@@ -55,6 +56,18 @@ public class Obra {
     public String toString() {
         return "Obra{" + "id=" + id + ", isbn=" + isbn + ", titulo=" + titulo + ", autores=" + autores + '}';
     }
+
+    @Override
+    public int compareTo(Obra o) {
+        if(this.getId() < o.getId())
+            return -1;
+        if(this.getId() > o.getId())
+            return 1;
+        return 0;
+    }
+
+   
+    
     
     
 }
