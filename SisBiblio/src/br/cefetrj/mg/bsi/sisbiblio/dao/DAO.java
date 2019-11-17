@@ -10,13 +10,14 @@ import java.util.ArrayList;
 /**
  *
  * @author cristian
+ * @param <T>
  */
-public  interface  DAO {
+public  interface  DAO<T>{
     public  boolean inserir(Object o);
     public boolean atualizar(Object o);
     public boolean excluir(Object o);
     public Object buscar(Object o);
-    public ArrayList<?> listar();
+    public ArrayList<T> listar();
     //public boolean criarOuAtualizarArquivo(Object o);
     public int getPos(Object o);
     public int getLastId();

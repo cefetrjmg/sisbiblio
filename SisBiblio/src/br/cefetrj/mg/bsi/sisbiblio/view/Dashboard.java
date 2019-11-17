@@ -6,12 +6,17 @@
 package br.cefetrj.mg.bsi.sisbiblio.view;
 
 import static br.cefetrj.mg.bsi.sisbiblio.config.Settings.*;
-import static br.cefetrj.mg.bsi.utils.Utils.confirm;
+import br.cefetrj.mg.bsi.sisbiblio.controller.ObraController;
+import br.cefetrj.mg.bsi.sisbiblio.rn.ObraRN;
+import br.cefetrj.mg.bsi.utils.Utils;
+import static br.cefetrj.mg.bsi.utils.Utils.*;
+import java.awt.Event;
+import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
-
 
 /**
  *
@@ -22,33 +27,84 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    
-    
+    private final ObraController obraCtl, AutorCtl = null;
+    private ObraRN obraRN=null;
     public Dashboard() {
         initComponents();
+        lblId.setVisible(false);
         restoreView();
-        
-        
+        obraCtl = new ObraController(this);
+        obraRN=new ObraRN();
+        //autorCtl=new AutorController(this);
+        rdbObra.setSelected(true);
+        rdbObraActionPerformed(null);
+
+    }
+
+    public void limpar(){
+        if(pnlObra.isVisible()){
+            txtISBN.setText("");
+            txtTitulo.setText("");
+            btnCadastrarAtualizar.setText("Cadastrar");
+            btnExcluir.setVisible(false);
+            rdbObraActionPerformed(null);
+            showFormObra();
+            
+        }
     }
     /*
-    *@param boolean 
-    */
-    private void showFormObra(){
+    *  
+     */
+    public void showFormObra() {
         pnlObra.setVisible(!pnlObra.isVisible());
-        pnlTable.setVisible(!pnlTable.isVisible());
-        pnlButton.setVisible(!pnlButton.isVisible());
-    }
-    private void showFormAutor(){
+        if(pnlObra.isVisible()){
+            pnlRelatorio.setVisible(false);
+            pnlTable.setVisible(false);
+            pnlForm.setVisible(true);
+            pnlButton.setVisible(true);
+            if(btnCadastrarAtualizar.getText().equalsIgnoreCase("cadastrar")){
+                btnExcluir.setVisible(false);
+            }
+            else{
+                btnExcluir.setVisible(true);
+            }
+        }else{
+            pnlRelatorio.setVisible(!false);
+            pnlTable.setVisible(!false);
+            pnlForm.setVisible(!true);
+            pnlButton.setVisible(!true);
+        }
         
     }
-    private void autocomplete(){
+
+    public void showFormAutor() {
+
+    }
+
+    public void showRelatorio() {
+        pnlRelatorio.setVisible(!pnlRelatorio.isVisible());
+        if (pnlRelatorio.isVisible()) {
+            pnlTable.setVisible(false);
+            pnlForm.setVisible(false);
+            pnlButton.setVisible(false);
+        } else {
+            pnlTable.setVisible(true);
+            pnlForm.setVisible(true);
+            pnlButton.setVisible(false);
+        }
+
+    }
+
+    public void autocomplete() {
         //AutoCompleteDecorator.
     }
-    private void restoreView(){
-        pnlForm.setVisible(true);
+
+    public void restoreView() {
         pnlTable.setVisible(true);
+        pnlForm.setVisible(false);
         pnlObra.setVisible(false);
         pnlButton.setVisible(false);
+        pnlRelatorio.setVisible(false);
     }
 
     public JButton getBtnCadastrarAtualizar() {
@@ -70,8 +126,16 @@ public class Dashboard extends javax.swing.JFrame {
     public JTextField getTxtTitulo() {
         return txtTitulo;
     }
-    
 
+    public JTable getTable() {
+        return table;
+    }
+
+    public JLabel getLblId() {
+        return lblId;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,21 +145,27 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDBCLoginService1 = new org.jdesktop.swingx.auth.JDBCLoginService();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pnlMenu = new javax.swing.JPanel();
         pnlMenuAutor = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         pnlMenuObra = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        pnlMenuRelatorio = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         pnlHead = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         pnlBody = new javax.swing.JPanel();
-        pnlForm = new javax.swing.JPanel();
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        txtPesquisa = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        txtPesquisa = new org.jdesktop.swingx.JXSearchField();
+        rdbAutor = new javax.swing.JRadioButton();
+        rdbObra = new javax.swing.JRadioButton();
+        pnlForm = new javax.swing.JPanel();
         pnlObra = new javax.swing.JPanel();
+        lblId = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
         txtISBN = new javax.swing.JTextField();
@@ -106,6 +176,10 @@ public class Dashboard extends javax.swing.JFrame {
         pnlButton = new javax.swing.JPanel();
         btnCadastrarAtualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        pnlRelatorio = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        btnGerarRelAutoresPorObras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SisBiblio-Dashboard");
@@ -124,16 +198,16 @@ public class Dashboard extends javax.swing.JFrame {
         pnlMenuAutor.setToolTipText("");
         pnlMenuAutor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setBackground(new java.awt.Color(102, 204, 255));
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_person_add_black_24dp.png"))); // NOI18N
-        jLabel2.setText("Autor");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel3.setBackground(new java.awt.Color(102, 204, 255));
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_person_add_black_24dp.png"))); // NOI18N
+        jLabel3.setText("Autor");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                jLabel3MouseClicked(evt);
             }
         });
-        pnlMenuAutor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
+        pnlMenuAutor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
 
         pnlMenu.add(pnlMenuAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 180, 60));
 
@@ -145,9 +219,35 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_book_black_24dp.png"))); // NOI18N
         jLabel1.setText("Obras");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel1MouseEntered(evt);
+            }
+        });
         pnlMenuObra.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
 
         pnlMenu.add(pnlMenuObra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 60));
+
+        pnlMenuRelatorio.setBackground(new java.awt.Color(51, 153, 255));
+        pnlMenuRelatorio.setToolTipText("");
+        pnlMenuRelatorio.setMaximumSize(new java.awt.Dimension(100, 50));
+        pnlMenuRelatorio.setMinimumSize(new java.awt.Dimension(100, 50));
+        pnlMenuRelatorio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/relatorio.png"))); // NOI18N
+        jLabel7.setText("Relatórios");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        pnlMenuRelatorio.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
+
+        pnlMenu.add(pnlMenuRelatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 180, 60));
 
         getContentPane().add(pnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 600));
 
@@ -168,17 +268,14 @@ public class Dashboard extends javax.swing.JFrame {
         pnlBody.setBackground(new java.awt.Color(255, 255, 255));
         pnlBody.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlForm.setBackground(new java.awt.Color(255, 255, 255));
-        pnlForm.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         pnlTable.setBackground(new java.awt.Color(255, 255, 255));
         pnlTable.setForeground(new java.awt.Color(204, 204, 204));
         pnlTable.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        table.setBackground(new java.awt.Color(255, 255, 255));
-        table.setForeground(new java.awt.Color(204, 204, 204));
+        table.setBackground(new java.awt.Color(204, 204, 204));
+        table.setForeground(new java.awt.Color(0, 0, 0));
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -205,8 +302,16 @@ public class Dashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setGridColor(new java.awt.Color(255, 255, 255));
-        table.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(20);
@@ -222,24 +327,50 @@ public class Dashboard extends javax.swing.JFrame {
 
         pnlTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 580, 320));
 
-        txtPesquisa.setBackground(new java.awt.Color(255, 255, 255));
         txtPesquisa.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        txtPesquisa.setForeground(new java.awt.Color(51, 51, 51));
         txtPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPesquisaActionPerformed(evt);
             }
         });
-        pnlTable.add(txtPesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 530, 40));
+        txtPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyReleased(evt);
+            }
+        });
+        pnlTable.add(txtPesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 570, 40));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_search_black_24dp.png"))); // NOI18N
-        pnlTable.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 60, 40));
+        rdbAutor.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdbAutor);
+        rdbAutor.setText("Autor");
+        rdbAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbAutorActionPerformed(evt);
+            }
+        });
+        pnlTable.add(rdbAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(484, 100, 90, -1));
 
-        pnlForm.add(pnlTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, -1));
+        rdbObra.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdbObra);
+        rdbObra.setText("Obra");
+        rdbObra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbObraActionPerformed(evt);
+            }
+        });
+        pnlTable.add(rdbObra, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 80, -1));
+
+        pnlBody.add(pnlTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, -1));
+
+        pnlForm.setBackground(new java.awt.Color(255, 255, 255));
+        pnlForm.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlObra.setBackground(new java.awt.Color(255, 255, 255));
         pnlObra.setForeground(new java.awt.Color(204, 204, 204));
         pnlObra.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblId.setText("jLabel8");
+        pnlObra.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -247,14 +378,10 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel5.setText("Título");
         pnlObra.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 140, 30));
 
-        txtTitulo.setBackground(new java.awt.Color(255, 255, 255));
         txtTitulo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        txtTitulo.setForeground(new java.awt.Color(51, 51, 51));
         pnlObra.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 560, 40));
 
-        txtISBN.setBackground(new java.awt.Color(255, 255, 255));
         txtISBN.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        txtISBN.setForeground(new java.awt.Color(51, 51, 51));
         pnlObra.add(txtISBN, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 560, 40));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -278,7 +405,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         pnlObra.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 560, 110));
 
-        txtPesquisarAutor.setBackground(new java.awt.Color(255, 255, 255));
         txtPesquisarAutor.setForeground(new java.awt.Color(0, 0, 0));
         txtPesquisarAutor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txtPesquisarAutor.setPrompt(" Digite o nome ou email de um autor...");
@@ -292,14 +418,17 @@ public class Dashboard extends javax.swing.JFrame {
 
         btnCadastrarAtualizar.setBackground(new java.awt.Color(255, 255, 255));
         btnCadastrarAtualizar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        btnCadastrarAtualizar.setForeground(new java.awt.Color(51, 51, 51));
         btnCadastrarAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/baseline_add_black_18dp.png"))); // NOI18N
         btnCadastrarAtualizar.setText("Cadastrar");
+        btnCadastrarAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarAtualizarActionPerformed(evt);
+            }
+        });
         pnlButton.add(btnCadastrarAtualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 260, 50));
 
         btnExcluir.setBackground(new java.awt.Color(255, 255, 255));
         btnExcluir.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        btnExcluir.setForeground(new java.awt.Color(51, 51, 51));
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/baseline_delete_black_18dp.png"))); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -313,6 +442,38 @@ public class Dashboard extends javax.swing.JFrame {
 
         pnlBody.add(pnlForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 550));
 
+        pnlRelatorio.setBackground(new java.awt.Color(255, 255, 255));
+        pnlRelatorio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setText("(Em Breve)");
+        pnlRelatorio.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 90, 20));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton1.setText("Obras por autores");
+        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton1.setEnabled(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlRelatorio.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 580, 60));
+
+        btnGerarRelAutoresPorObras.setBackground(new java.awt.Color(255, 255, 255));
+        btnGerarRelAutoresPorObras.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnGerarRelAutoresPorObras.setText("Autores por obra");
+        btnGerarRelAutoresPorObras.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnGerarRelAutoresPorObras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerarRelAutoresPorObrasActionPerformed(evt);
+            }
+        });
+        pnlRelatorio.add(btnGerarRelAutoresPorObras, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 580, 50));
+
+        pnlBody.add(pnlRelatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 450));
+
         getContentPane().add(pnlBody, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 600, 550));
 
         pack();
@@ -321,27 +482,130 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
-        if(confirm("Deseja sair?", TITLE) == 0){
+        if (confirm("Deseja sair?", TITLE) == 0) {
             System.exit(0);
         }
-            
+
     }//GEN-LAST:event_jLabel4MouseClicked
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
-        showFormObra();
-    }//GEN-LAST:event_jLabel2MouseClicked
+        boolean response=false;
+        if (confirm(MSG_DELETE, TITLE) == 0) {
+            response=obraCtl.excluir(Integer.parseInt(lblId.getText()));
+            Utils.print(MSG, TITLE, response);
+            if(response)
+                limpar();
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnCadastrarAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarAtualizarActionPerformed
+        // TODO add your handling code here:
+        boolean response = false;
+        if (pnlObra.isVisible()) {
+            ArrayList<String> erros=obraRN.validarForm(this);
+            if(erros.isEmpty())
+                if(btnCadastrarAtualizar.getText().equalsIgnoreCase("cadastrar"))
+                    response = obraCtl.inserir();
+                else 
+                    response=obraCtl.atualizar();
+            else{
+                MSG="";
+                for(String s:erros){
+                    MSG+=s+"\n";
+                }
+                //Utils.print(MSG, TITLE, false);
+                 
+            }
+        }
+        /*else if(pnlAutor.isVisible())
+            response = obraCtl.inserir();*/
+        
+        Utils.print(MSG, TITLE, response);
+        if(response)
+            limpar();
+        
+
+    }//GEN-LAST:event_btnCadastrarAtualizarActionPerformed
 
     private void txtPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisaActionPerformed
 
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+    private void rdbObraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbObraActionPerformed
         // TODO add your handling code here:
-        if(confirm("Deseja realmente excluir?", TITLE) == 0){
-            
+        txtPesquisa.setPrompt("Informe o titulo ou isbn da obra...");
+        txtPesquisa.setPromptFontStyle(Font.ITALIC);
+        obraCtl.renderizar();
+    }//GEN-LAST:event_rdbObraActionPerformed
+
+    private void rdbAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbAutorActionPerformed
+        // TODO add your handling code here:
+        txtPesquisa.setPrompt("Informe o nome ou email do autor...");
+        txtPesquisa.setPromptFontStyle(Font.ITALIC);
+    }//GEN-LAST:event_rdbAutorActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        showFormObra();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        showRelatorio();
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1MouseEntered
+
+    private void btnGerarRelAutoresPorObrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelAutoresPorObrasActionPerformed
+        // TODO add your handling code here:
+        obraCtl.gerarRelatorioAutoresPorObras();
+    }//GEN-LAST:event_btnGerarRelAutoresPorObrasActionPerformed
+
+    private void txtPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyReleased
+        // TODO add your handling code here:
+        if(rdbObra.isSelected())
+            obraCtl.findByISBNOrTitulo(txtPesquisa.getText(),txtPesquisa.getText());
+    }//GEN-LAST:event_txtPesquisaKeyReleased
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() ==2){
+            int id=(int)table.getValueAt(table.getSelectedRow(), 0);
+            if(!obraCtl.buscar(id)){
+                Utils.print("Por favor, selecione uma linha válida!",TITLE,false);
+            }
         }
-    }//GEN-LAST:event_btnExcluirActionPerformed
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableKeyPressed
+        // TODO add your handling code here:
+        boolean response=false;
+        if(evt.getKeyCode() ==  Event.DELETE){
+            if(confirm(MSG_DELETE,TITLE) == 0){
+                if(rdbObra.isSelected()){
+                    int id=(int)table.getValueAt(table.getSelectedRow(),0);
+                    response=obraCtl.excluir(id);
+                        
+                    
+                }
+                Utils.print(MSG, TITLE, response);
+                obraCtl.renderizar();
+            }
+        }
+            
+    }//GEN-LAST:event_tableKeyPressed
 
     /**
      * @param args the command line arguments
@@ -381,14 +645,20 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrarAtualizar;
     private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnGerarRelAutoresPorObras;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
+    private org.jdesktop.swingx.auth.JDBCLoginService jDBCLoginService1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblId;
     private javax.swing.JPanel pnlBody;
     private javax.swing.JPanel pnlButton;
     private javax.swing.JPanel pnlForm;
@@ -396,12 +666,16 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMenu;
     private javax.swing.JPanel pnlMenuAutor;
     private javax.swing.JPanel pnlMenuObra;
+    private javax.swing.JPanel pnlMenuRelatorio;
     private javax.swing.JPanel pnlObra;
+    private javax.swing.JPanel pnlRelatorio;
     private javax.swing.JPanel pnlTable;
+    private javax.swing.JRadioButton rdbAutor;
+    private javax.swing.JRadioButton rdbObra;
     private javax.swing.JTable table;
     private org.jdesktop.swingx.JXTable tableAutor;
     private javax.swing.JTextField txtISBN;
-    private javax.swing.JTextField txtPesquisa;
+    private org.jdesktop.swingx.JXSearchField txtPesquisa;
     private org.jdesktop.swingx.JXSearchField txtPesquisarAutor;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables

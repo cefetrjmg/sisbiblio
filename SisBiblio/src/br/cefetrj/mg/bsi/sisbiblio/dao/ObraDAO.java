@@ -6,6 +6,7 @@
 package br.cefetrj.mg.bsi.sisbiblio.dao;
 
 import br.cefetrj.mg.bsi.sisbiblio.config.Settings;
+import br.cefetrj.mg.bsi.sisbiblio.model.Autor;
 import br.cefetrj.mg.bsi.sisbiblio.model.Obra;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -24,15 +25,14 @@ import java.util.logging.Logger;
  *
  * @author cristian
  */
-public class ObraDAO extends Settings implements DAO {
+public class ObraDAO extends Settings implements DAO<Obra>{
 
     private Gson gson = null;
     private Obra obra = null;
-    private static ArrayList<Obra> obras = null;
+    private static ArrayList<Obra> obras = new ArrayList<>();
 
     public ObraDAO() {
         gson = new Gson();
-        obras = new ArrayList<>();
         setEnv();
     }
 
@@ -63,11 +63,11 @@ public class ObraDAO extends Settings implements DAO {
     public boolean inserir(Object o) {
 
         obra = (Obra) o;
-
-        if (obras.add(obra)) {
+        listar();
+        if (ObraDAO.obras.add(obra)) {
             try {
                 init();
-                FILE_WRITER = new FileWriter(FILE, false);
+                FILE_WRITER = new FileWriter(FILE,false);
                 BUFFERED_WRITER = new BufferedWriter(FILE_WRITER);
                 String aux = gson.toJson(obras);
                 BUFFERED_WRITER.write(aux);
@@ -97,7 +97,7 @@ public class ObraDAO extends Settings implements DAO {
                 try {
                     FILE.delete();
                     FILE.createNewFile();
-                    FILE_WRITER = new FileWriter(FILE, false);
+                    FILE_WRITER = new FileWriter(FILE);
                     BUFFERED_WRITER = new BufferedWriter(FILE_WRITER);
                     BUFFERED_WRITER.write(gson.toJson(obras));
                     BUFFERED_WRITER.close();
@@ -130,7 +130,7 @@ public class ObraDAO extends Settings implements DAO {
             if (obras.remove(pos) != null) {
                 try {
                     init();
-                    FILE_WRITER = new FileWriter(FILE, false);
+                    FILE_WRITER = new FileWriter(FILE);
                     BUFFERED_WRITER = new BufferedWriter(FILE_WRITER);
                     BUFFERED_WRITER.write(gson.toJson(obras));
                     BUFFERED_WRITER.close();
@@ -155,16 +155,17 @@ public class ObraDAO extends Settings implements DAO {
 
     @Override
     public Object buscar(Object o) {
+        listar();
         Obra aux = (Obra) o;
         for (Obra obra : obras) {
             if(aux.getId() != 0)
               if(aux.getId() == obra.getId())
                 return obra;
             if(aux.getIsbn() != null)    
-                if(aux.getIsbn().contains(obra.getIsbn()))
+                if(aux.getIsbn().equalsIgnoreCase(obra.getIsbn()))
                     return obra;
             if(aux.getTitulo() != null)
-                if(aux.getTitulo().contains(obra.getTitulo()))
+                if(aux.getTitulo().equalsIgnoreCase(obra.getTitulo()))
                     return obra;
             
         }
@@ -173,7 +174,7 @@ public class ObraDAO extends Settings implements DAO {
     }
 
     @Override
-    public ArrayList<?> listar() {
+    public ArrayList<Obra> listar() {
         try {
             init();
             FILE_READER = new FileReader(FILE);
@@ -207,7 +208,11 @@ public class ObraDAO extends Settings implements DAO {
 
     @Override
     public int getLastId() {
-        return obras.get(obras.size()-1).getId();
+        listar();
+        if(ObraDAO.obras != null && !ObraDAO.obras.isEmpty() && ObraDAO.obras.size()>0){
+            return ObraDAO.obras.get(ObraDAO.obras.size()-1).getId();
+        }
+        return 0;
     }
     
 

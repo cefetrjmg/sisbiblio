@@ -18,7 +18,11 @@ public class Obra implements Comparable<Obra>{
     private String titulo;
     
     @SuppressWarnings("serial")
-    private ArrayList<Autor> autores =new ArrayList<>();
+    private ArrayList<Autor> autores;
+
+    public Obra() {
+        this.autores = new ArrayList<>();
+    }
     
     public int getId() {
         return id;

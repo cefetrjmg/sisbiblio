@@ -9,13 +9,12 @@ package br.cefetrj.mg.bsi.sisbiblio.controller;
  *
  * @author cristian
  */
-public interface Controller {
+public interface Controller<T> {
     public  boolean inserir();
     public boolean atualizar();
     public boolean excluir();
-    public Object buscar();
-    public boolean getObrasByTituloOrISBN();
+    public boolean buscar();
     public boolean listar();
-    
+    public void renderizar();
     
 }
