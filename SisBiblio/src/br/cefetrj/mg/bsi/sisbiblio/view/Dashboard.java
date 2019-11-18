@@ -70,26 +70,39 @@ public class Dashboard extends javax.swing.JFrame {
     /*
     *  
      */
-    public void showFormObra() {
-        pnlObra.setVisible(!pnlObra.isVisible());
-        if(pnlObra.isVisible()){
-            pnlRelatorio.setVisible(false);
-            pnlTable.setVisible(false);
-            pnlForm.setVisible(true);
-            pnlButton.setVisible(true);
-            if(btnCadastrarAtualizar.getText().equalsIgnoreCase("cadastrar")){
-                btnExcluir.setVisible(false);
-            }
-            else{
-                btnExcluir.setVisible(true);
-            }
-        }else{
-            pnlRelatorio.setVisible(!false);
-            pnlTable.setVisible(!false);
-            pnlForm.setVisible(!true);
-            pnlButton.setVisible(!true);
-        }
+    public void showIndex(){
         
+        pnlForm.setVisible(false);
+        pnlRelatorio.setVisible(false);
+        pnlTable.setVisible(true);
+    }
+            
+    public void showFormObra() {
+        pnlTable.setVisible(false);
+        pnlRelatorio.setVisible(false);
+        pnlForm.setVisible(true);
+        pnlObra.setVisible(true);
+        pnlButton.setVisible(true);
+        
+//        pnlObra.setVisible(!pnlObra.isVisible());
+//        if(pnlObra.isVisible()){
+//            pnlRelatorio.setVisible(false);
+//            pnlTable.setVisible(false);
+//            pnlForm.setVisible(true);
+//            pnlButton.setVisible(true);
+//            if(btnCadastrarAtualizar.getText().equalsIgnoreCase("cadastrar")){
+//                btnExcluir.setVisible(false);
+//            }
+//            else{
+//                btnExcluir.setVisible(true);
+//            }
+//        }else{
+//            pnlRelatorio.setVisible(!false);
+//            pnlTable.setVisible(!false);
+//            pnlForm.setVisible(!true);
+//            pnlButton.setVisible(!true);
+//        }
+//        
     }
 
     public void showFormAutor() {
@@ -183,6 +196,8 @@ public class Dashboard extends javax.swing.JFrame {
         lblMenuObra = new javax.swing.JLabel();
         pnlMenuRelatorio = new javax.swing.JPanel();
         lblMenuRelatorio = new javax.swing.JLabel();
+        pnlMenuInicio = new javax.swing.JPanel();
+        lblMenuInicio = new javax.swing.JLabel();
         pnlHead = new javax.swing.JPanel();
         lblHead = new javax.swing.JLabel();
         pnlBody = new javax.swing.JPanel();
@@ -280,6 +295,22 @@ public class Dashboard extends javax.swing.JFrame {
 
         pnlMenu.add(pnlMenuRelatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 180, 60));
 
+        pnlMenuInicio.setBackground(new java.awt.Color(51, 153, 255));
+        pnlMenuInicio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblMenuInicio.setBackground(new java.awt.Color(0, 102, 255));
+        lblMenuInicio.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblMenuInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/baseline_home_black_18dp.png"))); // NOI18N
+        lblMenuInicio.setText("Inicio");
+        lblMenuInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMenuInicioMouseClicked(evt);
+            }
+        });
+        pnlMenuInicio.add(lblMenuInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
+
+        pnlMenu.add(pnlMenuInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, -1));
+
         getContentPane().add(pnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 600));
 
         pnlHead.setBackground(new java.awt.Color(204, 204, 204));
@@ -305,7 +336,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        table.setForeground(new java.awt.Color(0, 0, 0));
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -375,7 +405,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Título");
         pnlObra.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 140, 30));
 
@@ -387,7 +416,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("ISBN");
         pnlObra.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 30));
 
@@ -412,7 +440,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         btnAdicionarAutor.setBackground(new java.awt.Color(255, 255, 255));
         btnAdicionarAutor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnAdicionarAutor.setForeground(new java.awt.Color(0, 0, 0));
         btnAdicionarAutor.setText("Adicionar");
         btnAdicionarAutor.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnAdicionarAutor.addActionListener(new java.awt.event.ActionListener() {
@@ -624,6 +651,11 @@ public class Dashboard extends javax.swing.JFrame {
         Utils.print(cboAutor.getSelectedItem().toString());
     }//GEN-LAST:event_btnAdicionarAutorActionPerformed
 
+    private void lblMenuInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenuInicioMouseClicked
+        // TODO add your handling code here:
+        showIndex();
+    }//GEN-LAST:event_lblMenuInicioMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -677,6 +709,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblHead;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblMenuAutor;
+    private javax.swing.JLabel lblMenuInicio;
     private javax.swing.JLabel lblMenuObra;
     private javax.swing.JLabel lblMenuRelatorio;
     private javax.swing.JPanel pnlBody;
@@ -685,6 +718,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHead;
     private javax.swing.JPanel pnlMenu;
     private javax.swing.JPanel pnlMenuAutor;
+    private javax.swing.JPanel pnlMenuInicio;
     private javax.swing.JPanel pnlMenuObra;
     private javax.swing.JPanel pnlMenuRelatorio;
     private javax.swing.JPanel pnlObra;
