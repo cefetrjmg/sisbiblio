@@ -7,16 +7,24 @@ package br.cefetrj.mg.bsi.sisbiblio.view;
 
 import static br.cefetrj.mg.bsi.sisbiblio.config.Settings.*;
 import br.cefetrj.mg.bsi.sisbiblio.controller.ObraController;
+import br.cefetrj.mg.bsi.sisbiblio.model.Obra;
 import br.cefetrj.mg.bsi.sisbiblio.rn.ObraRN;
+import br.cefetrj.mg.bsi.sisbiblio.tablemodel.AutorTableModel;
 import br.cefetrj.mg.bsi.utils.Utils;
 import static br.cefetrj.mg.bsi.utils.Utils.*;
 import java.awt.Event;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -38,6 +46,9 @@ public class Dashboard extends javax.swing.JFrame {
         //autorCtl=new AutorController(this);
         rdbObra.setSelected(true);
         rdbObraActionPerformed(null);
+        autocomplete();
+        
+        
 
     }
 
@@ -45,6 +56,10 @@ public class Dashboard extends javax.swing.JFrame {
         if(pnlObra.isVisible()){
             txtISBN.setText("");
             txtTitulo.setText("");
+            if(tableAutor.getModel() instanceof DefaultTableModel){
+                ((DefaultTableModel)tableAutor.getModel()).setNumRows(0);
+            }else if(tableAutor.getModel() instanceof AutorTableModel)
+                ((AutorTableModel)tableAutor.getModel()).clear();
             btnCadastrarAtualizar.setText("Cadastrar");
             btnExcluir.setVisible(false);
             rdbObraActionPerformed(null);
@@ -96,7 +111,16 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     public void autocomplete() {
-        //AutoCompleteDecorator.
+        
+        List<String> msg=new ArrayList<>();
+        msg.add("facebook");
+        msg.add("Google");
+        msg.add("youtube");
+        JList<String> list=new JList<>(msg.toArray(new String[0]));
+        msg.forEach((s) -> {
+            cboAutor.addItem(s);
+        });
+        AutoCompleteDecorator.decorate(cboAutor);
     }
 
     public void restoreView() {
@@ -134,6 +158,11 @@ public class Dashboard extends javax.swing.JFrame {
     public JLabel getLblId() {
         return lblId;
     }
+
+    public JXTable getTableAutor() {
+        return tableAutor;
+    }
+    
     
     
     /**
@@ -149,13 +178,13 @@ public class Dashboard extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         pnlMenu = new javax.swing.JPanel();
         pnlMenuAutor = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblMenuAutor = new javax.swing.JLabel();
         pnlMenuObra = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblMenuObra = new javax.swing.JLabel();
         pnlMenuRelatorio = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        lblMenuRelatorio = new javax.swing.JLabel();
         pnlHead = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        lblHead = new javax.swing.JLabel();
         pnlBody = new javax.swing.JPanel();
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -172,7 +201,9 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableAutor = new org.jdesktop.swingx.JXTable();
-        txtPesquisarAutor = new org.jdesktop.swingx.JXSearchField();
+        cboAutor = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        btnAdicionarAutor = new javax.swing.JButton();
         pnlButton = new javax.swing.JPanel();
         btnCadastrarAtualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
@@ -198,16 +229,16 @@ public class Dashboard extends javax.swing.JFrame {
         pnlMenuAutor.setToolTipText("");
         pnlMenuAutor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setBackground(new java.awt.Color(102, 204, 255));
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_person_add_black_24dp.png"))); // NOI18N
-        jLabel3.setText("Autor");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblMenuAutor.setBackground(new java.awt.Color(102, 204, 255));
+        lblMenuAutor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblMenuAutor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_person_add_black_24dp.png"))); // NOI18N
+        lblMenuAutor.setText("Autor");
+        lblMenuAutor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                lblMenuAutorMouseClicked(evt);
             }
         });
-        pnlMenuAutor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
+        pnlMenuAutor.add(lblMenuAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
 
         pnlMenu.add(pnlMenuAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 180, 60));
 
@@ -215,19 +246,19 @@ public class Dashboard extends javax.swing.JFrame {
         pnlMenuObra.setToolTipText("");
         pnlMenuObra.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setBackground(new java.awt.Color(0, 102, 255));
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_book_black_24dp.png"))); // NOI18N
-        jLabel1.setText("Obras");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblMenuObra.setBackground(new java.awt.Color(0, 102, 255));
+        lblMenuObra.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblMenuObra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_book_black_24dp.png"))); // NOI18N
+        lblMenuObra.setText("Obras");
+        lblMenuObra.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                lblMenuObraMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel1MouseEntered(evt);
+                lblMenuObraMouseEntered(evt);
             }
         });
-        pnlMenuObra.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
+        pnlMenuObra.add(lblMenuObra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
 
         pnlMenu.add(pnlMenuObra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 60));
 
@@ -237,15 +268,15 @@ public class Dashboard extends javax.swing.JFrame {
         pnlMenuRelatorio.setMinimumSize(new java.awt.Dimension(100, 50));
         pnlMenuRelatorio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/relatorio.png"))); // NOI18N
-        jLabel7.setText("Relatórios");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblMenuRelatorio.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblMenuRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/relatorio.png"))); // NOI18N
+        lblMenuRelatorio.setText("Relatórios");
+        lblMenuRelatorio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                lblMenuRelatorioMouseClicked(evt);
             }
         });
-        pnlMenuRelatorio.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
+        pnlMenuRelatorio.add(lblMenuRelatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 60));
 
         pnlMenu.add(pnlMenuRelatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 180, 60));
 
@@ -254,14 +285,14 @@ public class Dashboard extends javax.swing.JFrame {
         pnlHead.setBackground(new java.awt.Color(204, 204, 204));
         pnlHead.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_close_black_18dp.png"))); // NOI18N
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblHead.setBackground(new java.awt.Color(51, 51, 51));
+        lblHead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/cefetrj/mg/bsi/sisbiblio/icon/twotone_close_black_18dp.png"))); // NOI18N
+        lblHead.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                lblHeadMouseClicked(evt);
             }
         });
-        pnlHead.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 40, 50));
+        pnlHead.add(lblHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 40, 50));
 
         getContentPane().add(pnlHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 600, 50));
 
@@ -274,34 +305,15 @@ public class Dashboard extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        table.setBackground(new java.awt.Color(204, 204, 204));
         table.setForeground(new java.awt.Color(0, 0, 0));
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "#", "Editar", "Excluir"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -313,17 +325,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setMinWidth(20);
-            table.getColumnModel().getColumn(0).setPreferredWidth(20);
-            table.getColumnModel().getColumn(0).setMaxWidth(20);
-            table.getColumnModel().getColumn(1).setMinWidth(100);
-            table.getColumnModel().getColumn(1).setPreferredWidth(100);
-            table.getColumnModel().getColumn(1).setMaxWidth(100);
-            table.getColumnModel().getColumn(2).setMinWidth(100);
-            table.getColumnModel().getColumn(2).setPreferredWidth(100);
-            table.getColumnModel().getColumn(2).setMaxWidth(100);
-        }
 
         pnlTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 580, 320));
 
@@ -392,23 +393,34 @@ public class Dashboard extends javax.swing.JFrame {
 
         tableAutor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane2.setViewportView(tableAutor);
 
         pnlObra.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 560, 110));
 
-        txtPesquisarAutor.setForeground(new java.awt.Color(0, 0, 0));
-        txtPesquisarAutor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        txtPesquisarAutor.setPrompt(" Digite o nome ou email de um autor...");
-        pnlObra.add(txtPesquisarAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 560, 40));
+        cboAutor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlObra.add(cboAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 560, 40));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setText("Autores");
+        pnlObra.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 182, 80, 30));
+
+        btnAdicionarAutor.setBackground(new java.awt.Color(255, 255, 255));
+        btnAdicionarAutor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnAdicionarAutor.setForeground(new java.awt.Color(0, 0, 0));
+        btnAdicionarAutor.setText("Adicionar");
+        btnAdicionarAutor.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnAdicionarAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarAutorActionPerformed(evt);
+            }
+        });
+        pnlObra.add(btnAdicionarAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(474, 260, 110, 40));
 
         pnlForm.add(pnlObra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 450));
 
@@ -480,13 +492,13 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void lblHeadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHeadMouseClicked
         // TODO add your handling code here:
         if (confirm("Deseja sair?", TITLE) == 0) {
             System.exit(0);
         }
 
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_lblHeadMouseClicked
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
@@ -536,7 +548,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         txtPesquisa.setPrompt("Informe o titulo ou isbn da obra...");
         txtPesquisa.setPromptFontStyle(Font.ITALIC);
-        obraCtl.renderizar();
+        obraCtl.renderizar(table,new Obra());
     }//GEN-LAST:event_rdbObraActionPerformed
 
     private void rdbAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbAutorActionPerformed
@@ -545,28 +557,28 @@ public class Dashboard extends javax.swing.JFrame {
         txtPesquisa.setPromptFontStyle(Font.ITALIC);
     }//GEN-LAST:event_rdbAutorActionPerformed
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void lblMenuAutorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenuAutorMouseClicked
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_lblMenuAutorMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void lblMenuObraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenuObraMouseClicked
         // TODO add your handling code here:
         showFormObra();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_lblMenuObraMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+    private void lblMenuRelatorioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenuRelatorioMouseClicked
         // TODO add your handling code here:
         showRelatorio();
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_lblMenuRelatorioMouseClicked
 
-    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
+    private void lblMenuObraMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenuObraMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel1MouseEntered
+    }//GEN-LAST:event_lblMenuObraMouseEntered
 
     private void btnGerarRelAutoresPorObrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelAutoresPorObrasActionPerformed
         // TODO add your handling code here:
@@ -601,11 +613,16 @@ public class Dashboard extends javax.swing.JFrame {
                     
                 }
                 Utils.print(MSG, TITLE, response);
-                obraCtl.renderizar();
+                obraCtl.renderizar(table,new Obra());
             }
         }
             
     }//GEN-LAST:event_tableKeyPressed
+
+    private void btnAdicionarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarAutorActionPerformed
+        // TODO add your handling code here:
+        Utils.print(cboAutor.getSelectedItem().toString());
+    }//GEN-LAST:event_btnAdicionarAutorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -643,22 +660,25 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionarAutor;
     private javax.swing.JButton btnCadastrarAtualizar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnGerarRelAutoresPorObras;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cboAutor;
     private javax.swing.JButton jButton1;
     private org.jdesktop.swingx.auth.JDBCLoginService jDBCLoginService1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblHead;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblMenuAutor;
+    private javax.swing.JLabel lblMenuObra;
+    private javax.swing.JLabel lblMenuRelatorio;
     private javax.swing.JPanel pnlBody;
     private javax.swing.JPanel pnlButton;
     private javax.swing.JPanel pnlForm;
@@ -676,7 +696,6 @@ public class Dashboard extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXTable tableAutor;
     private javax.swing.JTextField txtISBN;
     private org.jdesktop.swingx.JXSearchField txtPesquisa;
-    private org.jdesktop.swingx.JXSearchField txtPesquisarAutor;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

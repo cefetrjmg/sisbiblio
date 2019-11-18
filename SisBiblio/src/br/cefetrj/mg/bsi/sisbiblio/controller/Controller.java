@@ -5,6 +5,9 @@
  */
 package br.cefetrj.mg.bsi.sisbiblio.controller;
 
+import java.util.ArrayList;
+import javax.swing.JTable;
+
 /**
  *
  * @author cristian
@@ -15,6 +18,9 @@ public interface Controller<T> {
     public boolean excluir();
     public boolean buscar();
     public boolean listar();
-    public void renderizar();
+    public void renderizar(JTable table, Object model);
+    public void renderizar(ArrayList<T> list);
+    public void renderizar(JTable table, ArrayList<? extends Object> list);
+    
     
 }

@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.cefetrj.mg.bsi.sisbiblio.model;
+package br.cefetrj.mg.bsi.sisbiblio.tablemodel;
 
+import br.cefetrj.mg.bsi.sisbiblio.model.Autor;
+import br.cefetrj.mg.bsi.sisbiblio.model.Obra;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
@@ -13,21 +16,23 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author cristian
  */
-public class TableModel extends AbstractTableModel {
+public class ObraTableModel extends AbstractTableModel implements Serializable{
 
     private ArrayList<Obra> obras = null;
-    private ArrayList<Autor> autores = null;
     private ArrayList<String> colunas = new ArrayList<>();
 
-    public TableModel(ArrayList<Obra> obras, ArrayList<Autor> autores) {
+    public ObraTableModel(ArrayList<Obra> obras) {
         this.obras = obras;
-        this.autores = autores;
         init();
+    }
+
+    public ObraTableModel() {
+       
     }
 
     private void init() {
         colunas.clear();
-        if (!obras.isEmpty()) {
+        if (obras != null && !obras.isEmpty()) {
             Class<Obra> obra = Obra.class;
             for (Field atributo : obra.getDeclaredFields()) {
                 if(!atributo.getName().equalsIgnoreCase("autores"))
@@ -40,8 +45,6 @@ public class TableModel extends AbstractTableModel {
     public int getRowCount() {
         if (obras != null) {
             return obras.size();
-        } else if (autores != null) {
-            return autores.size();
         }
         return 0;
     }
@@ -68,8 +71,10 @@ public class TableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (obras != null) {
-            Obra obra = getObra(rowIndex);
+        
+        Obra obra = getObra(rowIndex);
+        if (obras != null && !obras.isEmpty()) {
+            
             switch (columnIndex) {
                 case 0:
                     return obra.getId();
@@ -80,7 +85,7 @@ public class TableModel extends AbstractTableModel {
 
             }
         }
-        return null;
+        return obra;
     }
 
     @Override
@@ -89,12 +94,15 @@ public class TableModel extends AbstractTableModel {
     }
 
     public Obra getObra(int pos) {
-        return obras.get(pos);
+        if(obras != null && !obras.isEmpty())
+            return obras.get(pos);
+        return null;
     }
 
-    public Autor getAutor(int pos) {
-        return autores.get(pos);
-    }
     
+    
+    public void clear() {
+        if(obras != null) obras.clear();
+    }
 
 }
