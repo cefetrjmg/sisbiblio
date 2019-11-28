@@ -14,8 +14,11 @@ import br.cefetrj.mg.bsi.utils.Utils;
 import static br.cefetrj.mg.bsi.utils.Utils.*;
 import java.awt.Event;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -222,6 +225,7 @@ public class Dashboard extends javax.swing.JFrame {
         pnlButton = new javax.swing.JPanel();
         btnCadastrarAtualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        pnlAutor = new javax.swing.JPanel();
         pnlRelatorio = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -231,7 +235,6 @@ public class Dashboard extends javax.swing.JFrame {
         setTitle("SisBiblio-Dashboard");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -401,7 +404,7 @@ public class Dashboard extends javax.swing.JFrame {
         pnlObra.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblId.setText("jLabel8");
-        pnlObra.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
+        pnlObra.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 20, -1, -1));
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -478,6 +481,10 @@ public class Dashboard extends javax.swing.JFrame {
         pnlButton.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 250, 50));
 
         pnlForm.add(pnlButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 580, 100));
+
+        pnlAutor.setToolTipText("");
+        pnlAutor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlForm.add(pnlAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, -20, 320, 260));
 
         pnlBody.add(pnlForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 550));
 
@@ -608,8 +615,12 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_lblMenuObraMouseEntered
 
     private void btnGerarRelAutoresPorObrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelAutoresPorObrasActionPerformed
-        // TODO add your handling code here:
-        obraCtl.gerarRelatorioAutoresPorObras();
+        try {
+            // TODO add your handling code here:
+            obraCtl.gerarRelatorioAutoresPorObras();
+        } catch (IOException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnGerarRelAutoresPorObrasActionPerformed
 
     private void txtPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyReleased
@@ -712,6 +723,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblMenuInicio;
     private javax.swing.JLabel lblMenuObra;
     private javax.swing.JLabel lblMenuRelatorio;
+    private javax.swing.JPanel pnlAutor;
     private javax.swing.JPanel pnlBody;
     private javax.swing.JPanel pnlButton;
     private javax.swing.JPanel pnlForm;

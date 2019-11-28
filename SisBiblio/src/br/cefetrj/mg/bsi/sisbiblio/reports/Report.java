@@ -25,7 +25,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 public class Report {
 
-    public static void authorsByBook(ArrayList<Obra> obras)  {
+    public static void authorsByBook(ArrayList<Obra> obras) throws IOException  {
         try {
             String pacote="/src/br/cefetrj/mg/bsi/sisbiblio/reports/";
             String caminho=System.getProperty("user.dir")+pacote;
@@ -35,7 +35,7 @@ public class Report {
             JasperPrint jasperPrint=JasperFillManager.fillReport(caminho+arquivo,params,jr);
             JasperExportManager.exportReportToPdfFile(jasperPrint,"autores_por_obra.pdf");
             Desktop.getDesktop().open(new File("autores_por_obra.pdf"));
-        } catch (JRException | IOException ex) {
+        } catch (JRException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

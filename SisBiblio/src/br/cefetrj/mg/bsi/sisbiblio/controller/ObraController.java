@@ -13,6 +13,7 @@ import br.cefetrj.mg.bsi.sisbiblio.reports.Report;
 import br.cefetrj.mg.bsi.sisbiblio.view.Dashboard;
 import br.cefetrj.mg.bsi.sisbiblio.repository.ObraRepository;
 import br.cefetrj.mg.bsi.sisbiblio.tablemodel.AutorTableModel;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JTable;
 
@@ -110,7 +111,7 @@ public class ObraController implements Controller<Obra> {
         return false;
     }
 
-    public void gerarRelatorioAutoresPorObras() {
+    public void gerarRelatorioAutoresPorObras() throws IOException {
         Report.authorsByBook(dao.listar());
     }
 

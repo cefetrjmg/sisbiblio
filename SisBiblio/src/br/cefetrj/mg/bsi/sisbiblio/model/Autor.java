@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Maurício
  */
-public class Autor {
+public class Autor implements Comparable<Autor>{
     private int id;
     private String nome;
     private String email;
@@ -52,6 +52,15 @@ public class Autor {
     @Override
     public String toString() {
         return "Autor{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", obras=" + obras + '}';
+    }
+    
+    @Override
+    public int compareTo(Autor o) {
+        if(this.getId() < o.getId())
+            return -1;
+        if(this.getId() > o.getId())
+            return 1;
+        return 0;
     }
     
     
