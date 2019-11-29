@@ -67,6 +67,24 @@ public class AutorTableModel extends AbstractTableModel {
         }
         return null;
     }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Autor a=getAutor(rowIndex);
+        switch(columnIndex){
+            case 0:
+                a.setId(Integer.parseInt(aValue.toString()));
+                break;
+            case 1 :
+                a.setNome(aValue.toString());
+                break;
+            case 2:
+                a.setEmail(aValue.toString());
+                break;
+                
+        }
+    }
+    
     public Autor getAutor(int pos) {
         if(autores != null && !autores.isEmpty())
             return autores.get(pos);

@@ -6,7 +6,6 @@
 package br.cefetrj.mg.bsi.sisbiblio.dao;
 
 import br.cefetrj.mg.bsi.sisbiblio.config.Settings;
-import br.cefetrj.mg.bsi.sisbiblio.model.Autor;
 import br.cefetrj.mg.bsi.sisbiblio.model.Obra;
 import com.google.gson.Gson;
 import java.io.BufferedReader;

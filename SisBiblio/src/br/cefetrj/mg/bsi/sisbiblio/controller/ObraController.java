@@ -51,6 +51,15 @@ public class ObraController implements Controller<Obra> {
         obra.setIsbn(view.getTxtISBN().getText());
         obra.setTitulo(view.getTxtTitulo().getText());
         obra.setId(++lastId);
+        if (view.getTableAutor().getRowCount() > 0 && view.getTableAutor().getColumnCount() > 0 && view.getTableAutor().getValueAt(0, 0) != null) {
+            for (int i = 0; i < view.getTableAutor().getRowCount(); i++) {
+                Autor autor = new Autor();
+                autor.setId((int) view.getTableAutor().getValueAt(i, 0));
+                autor.setNome((String) view.getTableAutor().getValueAt(i, 1));
+                autor.setEmail((String) view.getTableAutor().getValueAt(i, 2));
+                obra.getAutores().add(autor);
+            }
+        }
         return dao.inserir(obra);
 
     }
@@ -66,7 +75,7 @@ public class ObraController implements Controller<Obra> {
                 Autor autor = new Autor();
                 autor.setId((int) view.getTableAutor().getValueAt(i, 0));
                 autor.setNome((String) view.getTableAutor().getValueAt(i, 1));
-                autor.setEmail((String) view.getTableAutor().getValueAt(i, 1));
+                autor.setEmail((String) view.getTableAutor().getValueAt(i, 2));
                 obra.getAutores().add(autor);
             }
         }

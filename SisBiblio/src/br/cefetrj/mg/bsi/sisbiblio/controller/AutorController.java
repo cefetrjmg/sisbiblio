@@ -3,12 +3,9 @@ package br.cefetrj.mg.bsi.sisbiblio.controller;
 import br.cefetrj.mg.bsi.sisbiblio.dao.AutorDAO;
 import br.cefetrj.mg.bsi.sisbiblio.model.Autor;
 import br.cefetrj.mg.bsi.sisbiblio.model.Obra;
-import br.cefetrj.mg.bsi.sisbiblio.tablemodel.ObraTableModel;
-import br.cefetrj.mg.bsi.sisbiblio.reports.Report;
 import br.cefetrj.mg.bsi.sisbiblio.view.Dashboard;
 import br.cefetrj.mg.bsi.sisbiblio.repository.AutorRepository;
 import br.cefetrj.mg.bsi.sisbiblio.tablemodel.AutorTableModel;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JTable;
 
@@ -32,7 +29,7 @@ public class AutorController implements Controller<Autor> {
     public boolean inserir() {
         autor = new Autor();
         autor.setEmail(view.getTxtEmail().getText());
-        autor.setNome(view.getTxtNome().getTxt());
+        autor.setNome(view.getTxtNome().getText());
         autor.setId(++lastId);
         
         return dao.inserir(autor);
@@ -44,8 +41,7 @@ public class AutorController implements Controller<Autor> {
         autor.setEmail(view.getTxtEmail().getText());
         autor.setNome(view.getTxtNome().getText());
         autor.setId(Integer.parseInt(view.getLblId().getText()));
-        
-        return ;
+        return dao.atualizar(autor);
     }
     
     @Override
@@ -71,8 +67,8 @@ public class AutorController implements Controller<Autor> {
         
         if(autor != null){
             view.getLblId().setText(String.valueOf(autor.getId()));
-            view.getTxtEmail.setText(autor.getEmail());
-            view.getTxtNome.setText(autor.getNome());
+            view.getTxtEmail().setText(autor.getEmail());
+            view.getTxtNome().setText(autor.getNome());
             view.getBtnCadastrarAtualizar().setText("Atualizar");
             renderizar(view.getTable(), autor.getObras());
             view.showFormAutor();

@@ -19,6 +19,7 @@ import javax.swing.table.AbstractTableModel;
 public class ObraTableModel extends AbstractTableModel implements Serializable{
 
     private ArrayList<Obra> obras = null;
+    
     private ArrayList<String> colunas = new ArrayList<>();
 
     public ObraTableModel(ArrayList<Obra> obras) {
@@ -90,7 +91,9 @@ public class ObraTableModel extends AbstractTableModel implements Serializable{
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch(columnIndex){
+            
+        }
     }
 
     public Obra getObra(int pos) {

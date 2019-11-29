@@ -7,6 +7,8 @@ package br.cefetrj.mg.bsi.sisbiblio.view;
 
 import static br.cefetrj.mg.bsi.sisbiblio.config.Settings.*;
 import br.cefetrj.mg.bsi.sisbiblio.controller.ObraController;
+import br.cefetrj.mg.bsi.sisbiblio.faker.AutorFaker;
+import br.cefetrj.mg.bsi.sisbiblio.model.Autor;
 import br.cefetrj.mg.bsi.sisbiblio.model.Obra;
 import br.cefetrj.mg.bsi.sisbiblio.rn.ObraRN;
 import br.cefetrj.mg.bsi.sisbiblio.tablemodel.AutorTableModel;
@@ -40,6 +42,8 @@ public class Dashboard extends javax.swing.JFrame {
      */
     private final ObraController obraCtl, AutorCtl = null;
     private ObraRN obraRN=null;
+   private  ArrayList<Autor> autores=new ArrayList<>();
+    ArrayList<Autor> autoresSelecionados=new ArrayList<>();
     public Dashboard() {
         initComponents();
         lblId.setVisible(false);
@@ -67,6 +71,8 @@ public class Dashboard extends javax.swing.JFrame {
             btnExcluir.setVisible(false);
             rdbObraActionPerformed(null);
             showFormObra();
+            cboAutor.setSelectedIndex(-1);
+          
             
         }
     }
@@ -127,16 +133,24 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     public void autocomplete() {
+        cboAutor.removeAllItems();
         
-        List<String> msg=new ArrayList<>();
-        msg.add("facebook");
-        msg.add("Google");
-        msg.add("youtube");
-        JList<String> list=new JList<>(msg.toArray(new String[0]));
-        msg.forEach((s) -> {
-            cboAutor.addItem(s);
-        });
-        AutoCompleteDecorator.decorate(cboAutor);
+        AutorFaker.gerarEmailFaker();
+        
+        for (int i = 0; i < 100; i++) {
+            Autor autor =new Autor();
+            autor.setId(i+1);
+            autor.setNome(AutorFaker.gerarNomeFaker());
+            autor.setEmail(AutorFaker.gerarEmailFaker());
+            autores.add(autor);
+            cboAutor.addItem(autor.getNome());
+        }
+        cboAutor.setSelectedIndex(-1);
+//        List<String> msg=new ArrayList<>();
+//        msg.add("facebook");
+//        msg.add("Google");
+//        msg.add("youtube");
+        
     }
 
     public void restoreView() {
@@ -145,6 +159,8 @@ public class Dashboard extends javax.swing.JFrame {
         pnlObra.setVisible(false);
         pnlButton.setVisible(false);
         pnlRelatorio.setVisible(false);
+        pnlAutor.setVisible(false);
+        pnlMenuAutor.setVisible(false);
     }
 
     public JButton getBtnCadastrarAtualizar() {
@@ -178,6 +194,19 @@ public class Dashboard extends javax.swing.JFrame {
     public JXTable getTableAutor() {
         return tableAutor;
     }
+
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    public JTextField getTxtId() {
+        return txtId;
+    }
+
+    public JTextField getTxtNome() {
+        return txtNome;
+    }
+    
     
     
     
@@ -211,6 +240,15 @@ public class Dashboard extends javax.swing.JFrame {
         rdbAutor = new javax.swing.JRadioButton();
         rdbObra = new javax.swing.JRadioButton();
         pnlForm = new javax.swing.JPanel();
+        pnlAutor = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         pnlObra = new javax.swing.JPanel();
         lblId = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -225,7 +263,6 @@ public class Dashboard extends javax.swing.JFrame {
         pnlButton = new javax.swing.JPanel();
         btnCadastrarAtualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        pnlAutor = new javax.swing.JPanel();
         pnlRelatorio = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -399,6 +436,50 @@ public class Dashboard extends javax.swing.JFrame {
         pnlForm.setBackground(new java.awt.Color(255, 255, 255));
         pnlForm.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        pnlAutor.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAutor.setToolTipText("");
+        pnlAutor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setText("ID");
+        pnlAutor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        txtId.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        pnlAutor.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 140, 40));
+
+        jLabel4.setText("Nome");
+        pnlAutor.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        txtNome.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
+        pnlAutor.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 540, 40));
+
+        jLabel7.setText("E-Mail");
+        pnlAutor.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+
+        txtEmail.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        pnlAutor.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 540, 40));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        pnlAutor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 540, 150));
+
+        pnlForm.add(pnlAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 450));
+
         pnlObra.setBackground(new java.awt.Color(255, 255, 255));
         pnlObra.setForeground(new java.awt.Color(204, 204, 204));
         pnlObra.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -481,10 +562,6 @@ public class Dashboard extends javax.swing.JFrame {
         pnlButton.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 250, 50));
 
         pnlForm.add(pnlButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 580, 100));
-
-        pnlAutor.setToolTipText("");
-        pnlAutor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        pnlForm.add(pnlAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, -20, 320, 260));
 
         pnlBody.add(pnlForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 550));
 
@@ -659,13 +736,26 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnAdicionarAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarAutorActionPerformed
         // TODO add your handling code here:
-        Utils.print(cboAutor.getSelectedItem().toString());
+        int index=cboAutor.getSelectedIndex();
+        autoresSelecionados.add(autores.get(index));
+        tableAutor.setModel(new AutorTableModel(autoresSelecionados));
+        
+//        table.setValueAt(autores.get(index).getId(),table.getRowCount()-1 , 0);
+//        table.setValueAt(autores.get(index).getNome(),table.getRowCount()-1 , 1);
+//        table.setValueAt(autores.get(index).getEmail(),table.getRowCount()-1 , 2);
+        
+        
+        
     }//GEN-LAST:event_btnAdicionarAutorActionPerformed
 
     private void lblMenuInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenuInicioMouseClicked
         // TODO add your handling code here:
         showIndex();
     }//GEN-LAST:event_lblMenuInicioMouseClicked
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -713,10 +803,15 @@ public class Dashboard extends javax.swing.JFrame {
     private org.jdesktop.swingx.auth.JDBCLoginService jDBCLoginService1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblHead;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblMenuAutor;
@@ -740,7 +835,10 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdbObra;
     private javax.swing.JTable table;
     private org.jdesktop.swingx.JXTable tableAutor;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtISBN;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNome;
     private org.jdesktop.swingx.JXSearchField txtPesquisa;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
